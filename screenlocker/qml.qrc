@@ -8,6 +8,7 @@
         <file>images/fingerprint-symbolic.svg</file>
         <file>images/face-symbolic.svg</file>
         <file>qml/MprisItem.qml</file>
+        <file>qml/GlassPanel.qml</file>
         <file>images/media-cover.svg</file>
         <file>images/light/media-playback-pause-symbolic.svg</file>
         <file>images/light/media-playback-start-symbolic.svg</file>

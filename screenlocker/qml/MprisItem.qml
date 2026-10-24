@@ -58,11 +58,8 @@ Item {
         artImage.source = (artUrlTag in mprisManager.metadata) ? mprisManager.metadata[artUrlTag].toString() : ""
     }
 
-    Rectangle {
+    GlassPanel {
         anchors.fill: parent
-        radius: LingmoUI.Theme.bigRadius + 2
-        color: LingmoUI.Theme.darkMode ? "#424242" : "white"
-        opacity: 0.5
     }
 
     RowLayout {

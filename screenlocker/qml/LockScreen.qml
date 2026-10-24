@@ -24,6 +24,9 @@ Item {
     // 空密码尝试计数器
     property int emptyAttempts: 0
 
+    // Contagem de falhas do face unlock
+    property int faceFailedAttempts: 0
+
     LayoutMirroring.enabled: Qt.locale().textDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
@@ -168,11 +171,8 @@ Item {
 
         Layout.alignment: Qt.AlignHCenter
 
-        Rectangle {
+        GlassPanel {
             anchors.fill: parent
-            radius: LingmoUI.Theme.bigRadius + 2
-            color: LingmoUI.Theme.darkMode ? "#424242" : "white"
-            opacity: 0.5
         }
 
         ColumnLayout {
@@ -217,6 +217,7 @@ Item {
 
             TextField {
                 id: password
+                visible: authenticator.faceState === "" || authenticator.faceState === "unavailable" || root.faceFailedAttempts >= 3
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredHeight: 36
                 Layout.fillWidth: true
@@ -445,6 +446,14 @@ Item {
 
     Connections {
         target: authenticator
+
+        function onFaceStateChanged() {
+            if (authenticator.faceState === "failed" || authenticator.faceState === "liveness") {
+                root.faceFailedAttempts++
+            } else if (authenticator.faceState === "looking" && root.faceFailedAttempts >= 3) {
+                // Keep password field visible if it already failed 3 times
+            }
+        }
 
         function onFailed() {
             notificationResetTimer.start()
